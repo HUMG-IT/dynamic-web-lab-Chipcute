@@ -15,6 +15,17 @@ const { Builder, By } = require('selenium-webdriver');
             console.error('Kiểm thử lưu tên: Failed - Lời chào không đúng');
         }
 
+        // Kiểm thử tính tuổi
+        await driver.findElement(By.id('birthdate')).sendKeys('1990-01-01'); // Nhập ngày sinh
+        await driver.findElement(By.xpath("//button[contains(text(),'Tính tuổi')]")).click(); // Giả sử có button tính tuổi
+
+        let ageResult = await driver.findElement(By.id('ageResult')).getText();
+        if (ageResult.includes('Tuổi')) {
+            console.log('Kiểm thử tính tuổi: Passed');
+        } else {
+            console.error('Kiểm thử tính tuổi: Failed - Tuổi không chính xác');
+        }
+
         // Kiểm thử tính BMI
         await driver.findElement(By.id('weight')).sendKeys('60');
         await driver.findElement(By.id('height')).sendKeys('165');

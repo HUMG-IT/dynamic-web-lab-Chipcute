@@ -23,6 +23,36 @@ describe('Kiểm thử POST /api/v1/submit', () => {
   });
 });
 
+// Route tính tuổi
+const { calculateAge } = require('../src/models/age'); // Import model tính tuổi
+
+app.post('/api/v1/age', (req, res) => {
+  const { birthdate } = req.body; // Ngày sinh dưới dạng "YYYY-MM-DD"
+  const age = calculateAge(birthdate); // Tính tuổi từ ngày sinh
+  res.json({ age });
+});
+
+// Kiểm thử POST /api/v1/age
+describe('Kiểm thử POST /api/v1/age', () => {
+  it('tính tuổi chính xác từ ngày sinh', async () => {
+    const res = await request(app)
+      .post('/api/v1/age')
+      .send({ birthdate: '1990-01-01' });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('age');
+    expect(res.body.age).toBeGreaterThanOrEqual(30); // Kiểm tra tuổi có đúng
+  });
+
+  it('tính tuổi chính xác từ ngày sinh cho người sinh năm 2000', async () => {
+    const res = await request(app)
+      .post('/api/v1/age')
+      .send({ birthdate: '2000-05-15' });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('age');
+    expect(res.body.age).toBeGreaterThanOrEqual(24); // Kiểm tra tuổi
+  });
+});
+
 // Import các model và controller cho BMI
 const { calculateBMI, classifyBMI } = require('../src/models/bmi');
 app.post('/api/v1/bmi', (req, res) => {
