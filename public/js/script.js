@@ -37,34 +37,29 @@ document.getElementById('nameForm').addEventListener('submit', async function (e
 
 // Form tính tuổi
 document.getElementById('ageForm').addEventListener('submit', function (e) {
-    // Ngăn hành vi mặc định của form (ngăn tải lại trang)
-    e.preventDefault();
+    e.preventDefault();  // Ngăn hành vi mặc định của form (ngăn tải lại trang)
 
-    // Lấy giá trị ngày sinh từ input
-    const dob = new Date(document.getElementById('dob').value);
-    
-    // Kiểm tra nếu ngày sinh hợp lệ
-    if (isNaN(dob)) {
+    const birthdate = new Date(document.getElementById('birthdate').value);
+
+    if (isNaN(birthdate)) {
         document.getElementById('ageResult').textContent = 'Vui lòng nhập ngày sinh hợp lệ!';
         return;
     }
 
     // Tính tuổi
-    const age = calculateAge(dob);
-
-    // Hiển thị kết quả tuổi
+    const age = calculateAge(birthdate);
     document.getElementById('ageResult').textContent = `Tuổi của bạn là: ${age} tuổi`;
 });
 
 // Hàm tính tuổi từ ngày sinh
-function calculateAge(dob) {
+function calculateAge(birthdate) {
     const today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
+    let age = today.getFullYear() - birthdate.getFullYear();
     const month = today.getMonth();
     const day = today.getDate();
 
     // Điều chỉnh tuổi nếu chưa đến ngày sinh trong năm nay
-    if (month < dob.getMonth() || (month === dob.getMonth() && day < dob.getDate())) {
+    if (month < birthdate.getMonth() || (month === birthdate.getMonth() && day < birthdate.getDate())) {
         age--;
     }
 

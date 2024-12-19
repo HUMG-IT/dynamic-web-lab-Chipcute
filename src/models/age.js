@@ -7,6 +7,12 @@
 
 const calculateAge = (birthdate) => {
     const birthDateObj = new Date(birthdate);  // Chuyển ngày sinh thành đối tượng Date
+    
+    // Kiểm tra nếu birthdate không hợp lệ
+    if (isNaN(birthDateObj.getTime())) {
+        throw new Error('Ngày sinh không hợp lệ');
+    }
+
     const today = new Date();  // Lấy ngày hiện tại
 
     let age = today.getFullYear() - birthDateObj.getFullYear();  // Tính tuổi dựa trên năm sinh
